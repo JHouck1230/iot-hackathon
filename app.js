@@ -2,6 +2,8 @@
 
 require("dotenv").config();
 
+const PORT = 3000;
+
 var fs = require("fs");
 var path = require("path");
 var request = require("request");
@@ -17,9 +19,9 @@ var http = require('http');
 
 var app = express();
 
-var auth = process.env.auth;
-var zone = process.env.zone;
-var wsUrl = process.env.wsUrl;
+var auth = 'bearer eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiI4YTVkZjFmMS1mZTJkLTRlNDEtYTRhZC1kODE3MjYxNzI2YzMiLCJzdWIiOiJqb3NoIiwic2NvcGUiOlsiaWUtcGFya2luZy56b25lcy4yZGNhMjZiNi02OGYxLTRlYjQtYmE2MS1hM2JiYTY3NzMwNDgudXNlciIsImllLXB1YmxpYy1zYWZldHkuem9uZXMuNTBiOTEzODctMWY0ZC00NDYwLTllMjgtYWFjMDJiY2QxMzY1LnVzZXIiLCJ1YWEucmVzb3VyY2UiLCJpZS1wZWRlc3RyaWFuLnpvbmVzLjE4NDMwNGYxLTdiNWMtNDgyMS1hMzRhLWQ0ZTgwNjkzZTZjMi51c2VyIiwib3BlbmlkIiwidWFhLm5vbmUiXSwiY2xpZW50X2lkIjoiam9zaCIsImNpZCI6Impvc2giLCJhenAiOiJqb3NoIiwiZ3JhbnRfdHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsInJldl9zaWciOiI5MWRhODg2MyIsImlhdCI6MTQ2MzA2MTIxMSwiZXhwIjoxNDYzMTA0NDExLCJpc3MiOiJodHRwczovL2MwYzMwNGNiLTUxNTUtNDBhNC04OWRlLWNkNmNhZGQxZGEyZC5wcmVkaXgtdWFhLnJ1bi5hd3MtdXN3MDItcHIuaWNlLnByZWRpeC5pby9vYXV0aC90b2tlbiIsInppZCI6ImMwYzMwNGNiLTUxNTUtNDBhNC04OWRlLWNkNmNhZGQxZGEyZCIsImF1ZCI6WyJqb3NoIiwiaWUtcGFya2luZy56b25lcy4yZGNhMjZiNi02OGYxLTRlYjQtYmE2MS1hM2JiYTY3NzMwNDgiLCJpZS1wdWJsaWMtc2FmZXR5LnpvbmVzLjUwYjkxMzg3LTFmNGQtNDQ2MC05ZTI4LWFhYzAyYmNkMTM2NSIsInVhYSIsImllLXBlZGVzdHJpYW4uem9uZXMuMTg0MzA0ZjEtN2I1Yy00ODIxLWEzNGEtZDRlODA2OTNlNmMyIiwib3BlbmlkIl19.Hu8eEW5__0pUmvvfmeQbllWmg8m9sarFrFf_H5WWMDmEHdwebgkgMCWx-tBRKbKjnyndBOqQQY1iwzmX8ae2B9Ngbdq_bNImkVDKGNCusXAsf7JZUGOTS_rWNF9aK1_n8hHRpGyoLL3q3AXzbinLNDkcxFosHIMDeWj7v2k9ESB9ymFGp1W4W9FLC_UjvJZEljtptinRd23SI5kkpZhIQosFlKc3EqnEsWzTbPvRTfYJZXYGJmf877nsTaizYdvbHJw-ARuEzBHPWgKsXyVtF3JtcM08GlYkp1HI3mfULFIhLFheDwPKtZUd5a51FjmC-An3s588Ab2gneeWjKWC6g';
+var zone = '2dca26b6-68f1-4eb4-ba61-a3bba6773048';
+var wsUrl = 'wss://ie-websocket-server-prod.run.aws-usw02-pr.ice.predix.io/consume?routing-key=22c8ba8b-5cb4-43a6-adc9-55e80b063dfc&service-name=ie-parking';
 
 var headers = {
 	"authorization": auth,
@@ -30,9 +32,13 @@ var headers = {
 var socket = new WebSocket(wsUrl, {headers: headers});
 
 app.use('/open-ws', function(req, res) {
-	var wsUrl = req.get('x-endpoint'),
-		  auth = req.get('authorization'),
-		  zone = req.get('predix-zone-id');
+	// var wsUrl = req.get('x-endpoint'),
+	// 	  auth = req.get('authorization'),
+	// 	  zone = req.get('predix-zone-id');
+		  console.log('headers: ', headers);
+		  console.log('wsUrl: ', wsUrl);
+		  console.log('auth: ', auth);
+		  console.log('zone: ', zone);
 	if (!auth || !zone || !wsUrl) {
 		res.status(500).send({"error": "one of the required headers is missing: x-endpoint, authorization, or predix-zone-id."});
 	} else {
@@ -55,6 +61,7 @@ app.use('/open-ws', function(req, res) {
 		socket.on('open', function() {
 			// store socket in memory with an ID & expiration
 			// return socket ID to browser
+			var sockets = {};
 			var socketId = Math.random() * 10000000000000000000;
 			socket.socketId = socketId;
 			socket.expiration = Date.now() + 1200000; // 20 min
@@ -64,6 +71,11 @@ app.use('/open-ws', function(req, res) {
 			res.status(200).send({"socketId": socketId, "readyState": "OPEN"});
 		});
 	}
+});
+
+var server = http.createServer(app);
+server.listen(PORT, function() {
+	console.log(`Server listening on port ${PORT}`);
 });
 
 
