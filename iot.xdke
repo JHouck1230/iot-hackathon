@@ -5,5 +5,86 @@
     "currentBuildConfiguration": "Android",
     "projectFiles": {},
     "projectDirectories": {}
+  },
+  "iot-tab": {
+    "fileStatus": {
+      ".env": {
+        "previousModTime": 1463074393000,
+        "modified": 1463074393000,
+        "seen": true,
+        "name": ".env"
+      },
+      ".gitignore": {
+        "previousModTime": 1463074465000,
+        "modified": 1463074465000,
+        "seen": true,
+        "name": ".gitignore"
+      },
+      "app.js": {
+        "previousModTime": 1463082061000,
+        "modified": 1463082061000,
+        "seen": true,
+        "name": "app.js"
+      },
+      "config.json": {
+        "previousModTime": 1463074465000,
+        "modified": 1463074465000,
+        "seen": true,
+        "name": "config.json"
+      },
+      "index.html": {
+        "previousModTime": 1463074530000,
+        "modified": 1463074530000,
+        "seen": true,
+        "name": "index.html"
+      },
+      "iot.xdk": {
+        "previousModTime": 1463074029000,
+        "modified": 1463074029000,
+        "seen": true,
+        "name": "iot.xdk"
+      },
+      "iot.xdke": {
+        "previousModTime": 1463082020000,
+        "modified": 1463082020000,
+        "seen": true,
+        "name": "iot.xdke"
+      },
+      "package.json": {
+        "previousModTime": 1463077255000,
+        "modified": 1463077255000,
+        "seen": true,
+        "name": "package.json"
+      },
+      "screenlog.0": {
+        "previousModTime": 1463081736000,
+        "modified": 1463081736000,
+        "seen": true,
+        "name": "screenlog.0"
+      },
+      "server.js": {
+        "previousModTime": 1463076303000,
+        "modified": 1463076303000,
+        "seen": true,
+        "name": "server.js"
+      },
+      "test.js": {
+        "previousModTime": 1463077263000,
+        "modified": 1463077263000,
+        "seen": true,
+        "name": "test.js"
+      },
+      "xdk/project-info.json": {
+        "previousModTime": 1463074029000,
+        "modified": 1463074029000,
+        "seen": true,
+        "name": "xdk/project-info.json"
+      }
+    },
+    "boardFileStatus": {
+      "app.js": {
+        "previousModTime": 1463082066602
+      }
+    }
   }
 }
